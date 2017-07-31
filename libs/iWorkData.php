@@ -52,7 +52,7 @@ class Mysql implements iWorkData
     die('Error connection: '.mysql_error());
   } else
   {
-   echo "Success";
+   echo "Connect to MySql DB success";
   }
    mysql_select_db('user1', $link) or die(mysql_error());
 
@@ -66,22 +66,61 @@ class Mysql implements iWorkData
       $message = 'neverniy zapros: ' .mysql_error() . "\n";
       $message .= 'Zapros: ' . $query;
       die($message);
+     }else
+     {
+      echo "Query Success";
      }
   }
   function getData($key)
   {
-   // $query = sprintf("SELECT '$key','$val' FROM MY_TEST WHERE ");  
+    // $query = sprintf("SELECT '$key' FROM MY_TEST WHERE data='user5'");
+    // $result = mysql_query($query);
+    // if (!$result)
+    // {
+    //  $message = 'neverniy zapros: ' .mysql_error() . "\n";
+    //  $message .= 'Zapros: ' . $query;
+    //  die($message);
+    // }  else
+    // {
+    //    echo "Query success";
+    //    echo $result;
+    // }
   }
   function deleteData($key)
   {
-  
+   $query =  printf("DELETE FROM MY_TEST WHERE key='user5'");
+   $result = mysql_query($query);
+   if (!$result)
+     {
+       $message = 'neverniy zapros: ' .mysql_error() . "\n";
+       $message .= 'Zapros: ' . $query;
+       die($message);
+     }
   }
 }
 class Pgsql implements iWorkData
 {
+  public function __construct()
+      {
+      $link = pg_connect("host=localhost dbname=user1 user=user1 password=tuser1");
+      if (!link)
+       {
+      die('Error connection');
+      } else
+      {
+      echo "Success";
+    }
+      }
   function saveData($key,$val)
   {
-  
+    $query = ("INSERT INTO MY_TEST VALUES('$key','$val')");
+     $result = pg_query($link,$query);
+     if (!$result)
+    {
+     $message = 'neverniy zapros' . "\n";
+     $message .= 'Zapros: ' . $query;
+     die($message);
+    }
   }
   function getData($key)
   {
